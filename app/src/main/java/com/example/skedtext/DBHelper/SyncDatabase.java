@@ -35,6 +35,10 @@ import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.util.EntityUtils;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * Created by solomon on 2/12/17.
@@ -98,13 +102,10 @@ public class SyncDatabase {
     public boolean onUpdate() {
         getJsonCGroups();
         getJsonCUsers();
+        Log.d("JSONMESSAGE", messageJSON());
+        sendMessageJson(messageJSON());
         getJsonMessages();
         return true;
-    }
-
-    private void insertWebMessages() {
-        String json = messageJSON();
-        Log.d("TAG", json);
     }
 
     private void getJsonMessages(){
@@ -155,25 +156,6 @@ public class SyncDatabase {
                     Cursor cursor = db.rawQuery("select id from " + TABLE_MESSAGES + " WHERE " +
                             MESSAGES_ID + "=" + messages.getId() + ";", null);
                     if(cursor.moveToFirst()){
-                        Cursor selectU = db.rawQuery("select id from " + TABLE_MESSAGES + " WHERE " +
-                                MESSAGES_MESSAGE + "='" + messages.getMessage() + "' AND " +
-                                MESSAGES_CONTACT + "=" + messages.getContact() + " AND " +
-                                MESSAGES_EVENT + "='" + messages.getEventDateTime() + "' AND " +
-                                MESSAGES_ALARM + "='" + messages.getAlarmDateTime() + "' AND " +
-                                MESSAGES_STATUS + "=" + messages.getStatus() + ";", null);
-                        if(selectU.moveToFirst()){
-                            Log.d("TAG", "Message Exist");
-                        }else{
-                            Log.d("TAG", "Message does not exist");
-                            Log.d("TAG", "Message: " + messages.getMessage());
-                            ContentValues dUpdate = new ContentValues();
-                            dUpdate.put(MESSAGES_MESSAGE, messages.getMessage());
-                            dUpdate.put(MESSAGES_CONTACT, messages.getContact());
-                            dUpdate.put(MESSAGES_EVENT, messages.getEventDateTime());
-                            dUpdate.put(MESSAGES_ALARM, messages.getAlarmDateTime());
-                            dUpdate.put(MESSAGES_STATUS, Integer.parseInt(messages.getStatus()));
-                            result = db.insertWithOnConflict(TABLE_MESSAGES, null, dUpdate, SQLiteDatabase.CONFLICT_IGNORE);
-                        }
                     }else{
                         result = db.insertWithOnConflict(TABLE_MESSAGES, null, data, SQLiteDatabase.CONFLICT_IGNORE);
                     }
@@ -336,52 +318,22 @@ public class SyncDatabase {
         return gson.toJson(offlineList);
     }
 
-    public void syncSQLiteMySQLDB() {
-
-        //i get my json string from sqlite, see the code i posted above about this
-        final String json = messageJSON();
-
-        new Thread() {
-            public void run() {
-                makeRequest("http://skedtext.hol.es/apiJson.php", json);
-            }
-        }.start();
-
-    }
-
-    public void makeRequest(String uri, String json) {
+    public void sendMessageJson(String json){
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("messageJson",json)
+                .build();
+        Request request = new Request.Builder()
+                .url("http://skedtext.hol.es/apiJson.php")
+                .post(body)
+                .build();
+        okhttp3.Response response = null;
         try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(uri);
-            httpPost.setEntity(new StringEntity(json));
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-            HttpResponse response = client.execute(httpPost);
-            if (response != null) {
-
-                String responseBody = EntityUtils.toString(response.getEntity());
-                Log.d("response to sync", responseBody);
-                Object jsonObj = new JSONTokener(responseBody).nextValue();
-                if (jsonObj instanceof JSONObject) {
-                    JSONObject jsonObject = (JSONObject) jsonObj;
-                    //further actions on jsonObjects
-
-                } else if (jsonObj instanceof JSONArray) {
-                    //further actions on jsonArray
-                    JSONArray jsonArray = (JSONArray) jsonObj;
-                }
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
+            response = client.newCall(request).execute();
+            System.out.println(response.body().string());
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
-
 
 }

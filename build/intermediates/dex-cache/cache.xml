@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="7a1b033ff7312d9ecb5024d81eb193292950c057">
+        sha1="2e279c6cd7a52da97f5a868f22ca3fd2c8dc14c0">
         <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_b0d8a4d04a7f62069cbca1c633f7912ded5a6569/classes.dex" />
     </item>
     <item
@@ -250,7 +250,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="7175bf2c09871e81f06cf79ff8be17be34dacf9b">
+        sha1="9d4abf5c63033c1b3c44d0cad0e42cad64a3922b">
         <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_9e323bc30ed8dfd16c88a1abeea58ab67549af9c/classes.dex" />
     </item>
     <item

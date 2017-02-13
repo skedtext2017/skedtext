@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -95,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         Cursor cgroups = myDB.getContactGroups();
         Toast.makeText(this, "CUsers: " + String.valueOf(cusers.getCount()), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "CGroups: " + String.valueOf(cgroups.getCount()), Toast.LENGTH_SHORT).show();
+
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeEmpty = (SwipeRefreshLayout) findViewById(R.id.swipeEmpty);

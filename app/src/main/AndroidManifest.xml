@@ -42,7 +42,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.skedtext.activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.DisplaySchedItemActivity"></activity>
+        <activity android:name=".activities.DisplaySchedItemActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.skedtext.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
