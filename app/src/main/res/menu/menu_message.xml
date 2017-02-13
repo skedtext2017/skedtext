@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/confirm"
+        android:title="Confirm"
+        android:icon="@drawable/ic_message_confirm"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/info"
+        android:title="Information"
+        android:icon="@drawable/ic_info"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom"/>
+</menu>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sched_message"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:scrollbars="none"
+    tools:context="com.example.skedtext.activities.SchedMessageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            >
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:id="@+id/edtContacts"
+                android:hint="To:"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnAddContact"
+                android:layout_weight="0"
+                android:paddingTop="5dp"
+                android:background="@drawable/ic_contact"/>
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="4"
+            android:minLines="4"
+            android:maxLines="4"
+            android:id="@+id/edtMessage"
+            android:gravity="top|left"
+            android:hint="Message"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select date and time for: "
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event: "
+            android:textSize="16sp"
+            android:paddingBottom="20dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            >
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:focusable="false"
+                android:editable="false"
+                android:id="@+id/edtEventSelectDate"
+                android:textAlignment="center"
+                android:hint="Select Date"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:id="@+id/edtEventSelectTime"
+                android:focusable="false"
+                android:editable="false"
+                android:textAlignment="center"
+                android:hint="Select Time"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trigger Alarm"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="Select Date"
+                android:gravity="center"
+                android:focusable="false"
+                android:editable="false"
+                android:id="@+id/edtAlarmSelectDate"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="Select Time"
+                android:gravity="center"
+                android:focusable="false"
+                android:editable="false"
+                android:id="@+id/edtAlarmSelectTime"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

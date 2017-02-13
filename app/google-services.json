@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "405712192750",
+    "firebase_url": "https://skedtext-c2add.firebaseio.com",
+    "project_id": "skedtext-c2add",
+    "storage_bucket": "skedtext-c2add.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405712192750:android:2552dfb787a6e10c",
+        "android_client_info": {
+          "package_name": "com.example.skedtext"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405712192750-kai9nc6mmnd34787jrss8ofp6vveff17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMr4-My_9z6o1TXzrIcCvwUB5zzVVIvVg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
