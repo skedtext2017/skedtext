@@ -1,37 +1,64 @@
 package com.example.skedtext.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skedtext.DBHelper.SQLiteDatabaseHelper;
 import com.example.skedtext.R;
+import com.example.skedtext.Sms.SMSManager;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
-public class SchedMessageActivity extends AppCompatActivity {
+public class SchedMessageActivity extends AppCompatActivity{
 
-    EditText edtContacts, edtMessage, edtEventSelectTime, edtEventSelectDate,
-            edtAlarmSelectTime, edtAlarmSelectDate;
+    ScrollView activity_sched_message;
+    Spinner dropdownListGroups;
+    EditText edtMessage, edtEventSelectTime, edtEventSelectDate;
+    String contact, message, EventDateTime, EventTime;
 
-    String contact, message, EventDate, EventTime, AlarmDate, AlarmTime;
+    private ArrayList<String> permissionsGranted = new ArrayList<>();
+    final private static int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+    final private String[] permissionsRequired = new String[] {
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.READ_CONTACTS
+    };
 
     Activity activity;
 
     SQLiteDatabaseHelper myDB;
+    SimpleDateFormat formatter;
+    Date sDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +68,71 @@ public class SchedMessageActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
+        permissionsGranted();
+
+        contact = "";
+        message = "";
+        EventDateTime = "";
+
+        sDate = null;
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar mcurrentDate=Calendar.getInstance();
+        final int mYear=mcurrentDate.get(Calendar.YEAR);
+        final int mMonth=mcurrentDate.get(Calendar.MONTH);
+        final int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+        final String currentDate = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
+        Date cDate = null;
+        try {
+            cDate = formatter.parse(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        final Date finalCDate = cDate;
+
         myDB = new SQLiteDatabaseHelper(this);
         activity = this;
-        edtContacts = (EditText) findViewById(R.id.edtContacts);
         edtMessage = (EditText) findViewById(R.id.edtMessage);
+        activity_sched_message = (ScrollView) findViewById(R.id.activity_sched_message);
+        dropdownListGroups = (Spinner) findViewById(R.id.dropdownListGroups);
+
+        List<String> groups = new ArrayList<String>();
+        Cursor cGroups = myDB.getContactGroups();
+        if(cGroups.moveToFirst()){
+            do{
+                groups.add(cGroups.getString(cGroups.getColumnIndex("name")));
+            }while(cGroups.moveToNext());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, groups);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dropdownListGroups.setAdapter(dataAdapter);
 
         edtEventSelectDate = (EditText) findViewById(R.id.edtEventSelectDate);
         edtEventSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar mcurrentDate=Calendar.getInstance();
-                final int mYear=mcurrentDate.get(Calendar.YEAR);
-                final int mMonth=mcurrentDate.get(Calendar.MONTH);
-                final int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog mDatePicker=new DatePickerDialog(SchedMessageActivity.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        if(selectedyear < mYear || selectedmonth < mMonth || selectedday < mDay){
-                            Toast.makeText(getApplicationContext(), "Error: Selected day of message is less than" +
-                                    " the current date.", Toast.LENGTH_LONG).show();
+                        EventDateTime = String.valueOf(selectedyear) + "-" + String.valueOf(selectedmonth) + "-" + String.valueOf(selectedday);
+                        try{
+                            sDate = formatter.parse(EventDateTime);
+                        }catch (ParseException e){
+                            e.printStackTrace();
+                        }
+                        if(finalCDate.compareTo(sDate)>0){
+                            Snackbar snackbar = Snackbar.make(activity_sched_message, "Error: Selected day of event has already ended!", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                             edtEventSelectDate.setText("");
                             edtEventSelectDate.setHint("Select Date");
+                            EventDateTime = "";
                         }else{
-                            edtEventSelectDate.setText(selectedyear + "/" + selectedmonth + "/" + selectedday);
-                            EventDate = selectedyear + "-" + selectedmonth + "-" + selectedday;
+                            edtEventSelectDate.setText(selectedyear + "-" + selectedmonth + "-" + selectedday);
+                            EventDateTime = selectedyear + "-" + selectedmonth + "-" + selectedday;
                         }
                     }
                 },mYear, mMonth, mDay);
@@ -83,60 +151,17 @@ public class SchedMessageActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(SchedMessageActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        edtEventSelectTime.setText( selectedHour + ":" + selectedMinute);
-                        EventTime = selectedHour + ":" + selectedMinute;
+                        edtEventSelectTime.setText(String.format("%02d:%02d", selectedHour, selectedMinute));
+                        EventTime = String.format("%02d:%02d", selectedHour, selectedMinute) + ":" + "00";
+                        EventDateTime += " " + EventTime;
                     }
                 }, hour, minute, true);
                 mTimePicker.show();
             }
         });
-
-        edtAlarmSelectDate = (EditText) findViewById(R.id.edtAlarmSelectDate);
-        edtAlarmSelectDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar mcurrentDate=Calendar.getInstance();
-                final int mYear=mcurrentDate.get(Calendar.YEAR);
-                final int mMonth=mcurrentDate.get(Calendar.MONTH);
-                final int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog mDatePicker=new DatePickerDialog(SchedMessageActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        if(selectedyear < mYear || selectedmonth < mMonth || selectedday < mDay){
-                            Toast.makeText(getApplicationContext(), "Error: Selected day of message is less than" +
-                                    " the current date.", Toast.LENGTH_LONG).show();
-                            edtAlarmSelectDate.setText("");
-                            edtAlarmSelectDate.setHint("Select Date");
-                        }else{
-                            edtAlarmSelectDate.setText(selectedyear + "/" + selectedmonth + "/" + selectedday);
-                            AlarmDate = selectedyear + "-" + selectedmonth + "-" + selectedday;
-                        }
-                    }
-                },mYear, mMonth, mDay);
-                mDatePicker.show();
-            }
-        });
-
-        edtAlarmSelectTime = (EditText) findViewById(R.id.edtAlarmSelectTime);
-        edtAlarmSelectTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(SchedMessageActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        edtAlarmSelectTime.setText( selectedHour + ":" + selectedMinute);
-                        AlarmTime = selectedHour + ":" + selectedMinute;
-                    }
-                }, hour, minute, true);
-                mTimePicker.show();
-            }
-        });
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,11 +174,8 @@ public class SchedMessageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.confirm:
-                contact = edtContacts.getText().toString();
                 message = edtMessage.getText().toString();
-                if(contact.trim().equals("") || message.trim().equals("") ||
-                        EventDate.trim().equals("") || EventTime.trim().equals("") ||
-                        AlarmDate.trim().equals("") || AlarmTime.trim().equals("")){
+                if(message.trim().equals("") || EventDateTime.trim().equals("")){
                     final android.app.AlertDialog.Builder loginAlert = new android.app.AlertDialog.Builder(activity);
                     loginAlert.setTitle("Incomplete Information");
                     loginAlert.setMessage("Please input the required information. For more information" +
@@ -165,20 +187,56 @@ public class SchedMessageActivity extends AppCompatActivity {
                     });
                     loginAlert.show();
                 }else{
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("Are you sure?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    String event = EventDate + " " + EventTime;
-                                    String alarm = AlarmDate + " " + AlarmTime;
-                                    if(myDB.saveMessage(contact, message, event, alarm)){
-                                        finish();
+                                    String selectedGroup = dropdownListGroups.getSelectedItem().toString();
+
+                                    Cursor cGroup = myDB.getContactGroup(selectedGroup);
+                                    String gID = "";
+                                    if(cGroup.moveToFirst()){
+                                        gID = cGroup.getString(cGroup.getColumnIndex("id"));
+                                        if(sDate != null){
+                                            Calendar alarm = Calendar.getInstance();
+                                            alarm.setTime(sDate);
+                                            alarm.add(Calendar.DATE, -3);
+                                            Date EventAlarm = alarm.getTime();
+                                            String strEventAlarm = formatter.format(EventAlarm);
+                                            strEventAlarm += " " + EventTime;
+                                            Log.d("SkedText", "Event: " + EventDateTime );
+                                            Log.d("SkedText", "Event Alarm: " + strEventAlarm);
+                                            if(myDB.saveMessage(gID, message, EventDateTime, strEventAlarm)){
+                                                ArrayList<String> phoneNumbers = new ArrayList<String>();
+
+                                                Cursor cLastID = myDB.getMessages();
+                                                String msgID = "";
+                                                if(cLastID.moveToLast()){
+                                                    msgID = cLastID.getString(cLastID.getColumnIndex("id"));
+                                                    Cursor cNumbers = myDB.getContactPhone(gID);
+                                                    if(cNumbers.moveToFirst()){
+                                                        do{
+                                                            String num = "09" + cNumbers.getString(cNumbers.getColumnIndex("phone_number"));
+                                                            phoneNumbers.add(num);
+                                                        }while(cNumbers.moveToNext());
+
+                                                        for(int i = 0; i<phoneNumbers.size(); i++){
+                                                            SMSManager smsManager = new SMSManager(getApplicationContext());
+                                                            smsManager.sendSMS(msgID, phoneNumbers.get(i), message);
+                                                        }
+
+                                                    }
+                                                }
+                                                finish();
+                                            }
+                                        }
                                     }
+
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
                                 }
                             });
                     AlertDialog d = builder.create();
@@ -201,10 +259,6 @@ public class SchedMessageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        edtEventSelectTime.setText("");
-//        edtEventSelectTime.setHint("Select Time");
-//        edtEventSelectDate.setText("");
-//        edtEventSelectDate.setHint("Select Date");
     }
 
     @Override
@@ -212,6 +266,26 @@ public class SchedMessageActivity extends AppCompatActivity {
         if (keycode == KeyEvent.KEYCODE_BACK) {
         }
         return super.onKeyDown(keycode, event);
+    }
+
+    private boolean permissionsGranted() {
+        boolean granted = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ArrayList<String> permissionsNotGranted = new ArrayList<>();
+            for (String required : this.permissionsRequired) {
+                if (checkSelfPermission(required) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsNotGranted.add(required);
+                } else {
+                    this.permissionsGranted.add(required);
+                }
+            }
+            if (permissionsNotGranted.size() > 0) {
+                granted = false;
+                String[] notGrantedArray = permissionsNotGranted.toArray(new String[permissionsNotGranted.size()]);
+                requestPermissions(notGrantedArray, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            }
+        }
+        return granted;
     }
 
 }

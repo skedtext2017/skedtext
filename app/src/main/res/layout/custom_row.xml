@@ -44,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtmessage"
+                android:layout_marginTop="30dp"
                 android:layout_below="@+id/txtcontactGroup"
                 android:text="Message: "
                 android:textStyle="bold"

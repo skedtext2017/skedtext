@@ -57,7 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                     });
                     loginAlert.show();
                 }else{
-                    Cursor res = myDB.getUser(username, pass);
+                    String generateMD5 = myDB.md5(pass);
+                    Cursor res = myDB.getUser(username, generateMD5);
                     if(res.getCount() > 0){
                         sessionManager.createLoginSession(username, pass);
                         //Toast.makeText(getApplicationContext(), "Database: " + String.valueOf(db.getCount()), Toast.LENGTH_LONG).show();

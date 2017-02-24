@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +39,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
@@ -44,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
     String Token;
     boolean thread_running = true;
     RecyclerView rv;
-    TextView emptyMessages;
+    CoordinatorLayout coordinatorLayout;
     List<Messages> messagesList;
-    String url = "";
+    String url;
     private SQLiteDatabaseHelper myDB;
     private SwipeRefreshLayout swipeContainer;
     private SwipeRefreshLayout swipeEmpty;
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         activity = this;
         sessionManager = new SessionManager(this);
+        url = "";
 
         sessionManager.checkLogin();
 
@@ -91,17 +95,19 @@ public class MainActivity extends AppCompatActivity {
         t.start();
 
         myDB = new SQLiteDatabaseHelper(this);
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
 
         Cursor cusers = myDB.getContactUsers();
         Cursor cgroups = myDB.getContactGroups();
         Toast.makeText(this, "CUsers: " + String.valueOf(cusers.getCount()), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "CGroups: " + String.valueOf(cgroups.getCount()), Toast.LENGTH_SHORT).show();
 
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeEmpty = (SwipeRefreshLayout) findViewById(R.id.swipeEmpty);
@@ -138,7 +144,11 @@ public class MainActivity extends AppCompatActivity {
                         String id = res.getString(res.getColumnIndex("id"));
                         messages.setId(id);
                         String contact = res.getString(res.getColumnIndex("contact_fk"));
-                        messages.setContact(contact);
+                        Cursor infoGroup = myDB.getContactGroup(contact);
+                        if(infoGroup.moveToFirst()){
+                            String nameGroup = infoGroup.getString(infoGroup.getColumnIndex("name"));
+                            messages.setContact(nameGroup);
+                        }
                         String message = res.getString(res.getColumnIndex("message"));
                         messages.setMessage(message);
                         String event = res.getString(res.getColumnIndex("event_timestamp"));
@@ -152,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-                    // do what ever you want here
                 }while(res.moveToNext());
             }
             res.close();
@@ -161,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(Messages item) {
                     Intent toMessage = new Intent(getApplicationContext(), DisplaySchedItemActivity.class);
+                    toMessage.putExtra("id", item.getId());
                     toMessage.putExtra("contact", item.getContact());
                     toMessage.putExtra("message", item.getMessage());
                     toMessage.putExtra("eventDateTime", item.getEventDateTime());
@@ -241,7 +251,8 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onFinish() {
                                         progressDialog.dismiss();
-                                        Toast.makeText(activity, "Sync Success!", Toast.LENGTH_LONG).show();
+                                        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Sync Success!", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
                                     }
                                 }.start();
                             }else{

@@ -3,57 +3,57 @@
 
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.2.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.2.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="4838df6db988160b107e954e02a745370df543b6">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-9.2.0_a08b839bda89404c1bc2c919eaed8f87c24c4bd4/classes.dex" />
+        sha1="299e04800d1169b9f3dd04c376c7b266a3594cca">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-9.2.0_d91a05a4a6e4d4733426f9f1930222d7b06f6a58/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.2.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.2.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="a03f4d605b0f29222c2ddf8b7896258cb4b92def">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-9.2.0_96c28c693b89fc0690fa1710c62df7414ad9ff4c/classes.dex" />
+        sha1="fb15fd9774b5c51dcb39d8e6fa1b6f06bcd1cd34">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-impl-9.2.0_1b3c72a8129b295f3f4b1675b22d0f54c78fc636/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="2e279c6cd7a52da97f5a868f22ca3fd2c8dc14c0">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_b0d8a4d04a7f62069cbca1c633f7912ded5a6569/classes.dex" />
+        sha1="2416f7dd89cf682fe94ec7defdc183c43cdd98da">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_7c986d1a11dc50688ce7fc23ebbb92555158300f/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d38084015027549951cbaea5d5f6fb795cc81151">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.0_d6faa75fd686465f6f8b19b6ca68ee42808cb98f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.github.d-max/spots-dialog/0.7/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bf94678214d9ab43a8deb5df90d0b3e6d619ff1e">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.github.d-max-spots-dialog-0.7_9a2fd2eadd285aea12e5f720514932ca09335e7d/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_60eb309e540ad571723a471d18a73d937096f95d/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_d94d603ec9b2a1ed6f845966c22c22c886d2ff7e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.2.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4838df6db988160b107e954e02a745370df543b6">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-9.2.0_1d46b399af40d0de530e82e9890e1aa91648d176/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.2.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8ec9ae00d45e758ac5b7a1c5dc0daa8a4b24280f">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-places-9.2.0_ba1f33bea88ffa5ce6d824a0c1f93fe375389dd9/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -62,16 +62,16 @@
         optimize="true"
         revision="25.0.2"
         sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.2.4_e6e08a8a06dd585e7c4041172ac2813f084962ab/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.2.4_e6e08a8a06dd585e7c4041172ac2813f084962ab/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.2.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="8ec9ae00d45e758ac5b7a1c5dc0daa8a4b24280f">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-places-9.2.0_b130ed5024262937ac41dfe740eeb006c84a48de/classes.dex" />
+        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.0_ab1f2fd09245652dfc0ea308fb780cc022704476/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -80,16 +80,43 @@
         optimize="true"
         revision="25.0.2"
         sha1="98476622f10715998eacf9240d6b479f12c66143">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.6.0_b575e890847acd0daef0d4fbee65eaf1538cdb18/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.6.0_b575e890847acd0daef0d4fbee65eaf1538cdb18/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.2.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="dd7676ac12aa6653718b7ea33d93ce9d6915d526">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.2.0_7ef4a6e4579c84c79ce02e5590cd5faa11a42034/classes.dex" />
+        sha1="d38084015027549951cbaea5d5f6fb795cc81151">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.0_aff3384167922f5ff0ebbebae8ad8de08a9da59b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.2.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dc4c18602ecffb3e69cda6cdc51ba4feac0f97d7">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-iid-9.2.0_2eb5a5c33b7027c4ed99ee7a0612bb75497fbfe2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_b42cc94671a1faebcff9bc486653eca93d10c920/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_578152896ded6ad8538bd94226f1683bf8bc945f/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -98,16 +125,43 @@
         optimize="true"
         revision="25.0.2"
         sha1="f7873a2ebde246a45c2a8d6f3247108b4c88a879">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.2.0_2f3e1adcdda1d93ab696a7d1aef981b35ecf4364/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.2.0_2f3e1adcdda1d93ab696a7d1aef981b35ecf4364/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.2.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_b656edf232595a97dd37aefc9e93c084dc6b8d15/classes.dex" />
+        sha1="593fbaec1c3e100480a2bd72457b64b7dde6ac2d">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.2.0_50b554cd5e000df61aa038c06abb91b5085c337e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.2.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="30489a97b06cc3945bdbcc1770089af9e3b3b64d">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.2.0_5d18c073f2b5aa5ac4b5cfc534725419ee31855b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.github.d-max/spots-dialog/0.7/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf94678214d9ab43a8deb5df90d0b3e6d619ff1e">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.github.d-max-spots-dialog-0.7_73045f66d40d62a8bd2604e31cd4b20319f75abd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_fbbe11042e78b6cfdd8f524c41be93434c5172fe/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -116,7 +170,16 @@
         optimize="true"
         revision="25.0.2"
         sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.1_eff2624ca25e09fb1350504dd71f05eab1f2a8de/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.1_eff2624ca25e09fb1350504dd71f05eab1f2a8de/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_2e4f1d23d32c89a67f2697e05e62049df5e10f09/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -125,7 +188,7 @@
         optimize="true"
         revision="25.0.2"
         sha1="eecbb0b998e77629862a13d957d552b3be58fc4e">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/httpclient-android-4.3.5.1_90ef84dcb41a903f43b0d9303c5465ca0518340e/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/httpclient-android-4.3.5.1_90ef84dcb41a903f43b0d9303c5465ca0518340e/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -134,79 +197,43 @@
         optimize="true"
         revision="25.0.2"
         sha1="c8d96f6fd2bcc179c312da33ee670a71188cc60d">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/httpclient-4.4.1.1_94640208d5078df4c3725c4838358ff24563112b/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/httpclient-4.4.1.1_94640208d5078df4c3725c4838358ff24563112b/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.2.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.2.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="363f626ad5686283250cdb6073ae1bba5cb07a87">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-9.2.0_3226de8fdd4ea3b666d0801a418229023f4376a0/classes.dex" />
+        sha1="dd7676ac12aa6653718b7ea33d93ce9d6915d526">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.2.0_032c4cf3adc6ac46b4cc0b8ac5b5a0ee7111e1f6/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_535bced72aa0ce1a12677ca5c015425c5d7c1b65/classes.dex" />
+        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.0_5f09205e0e5f71c7eb54c6fe5cefd2c76603a597/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_f6a5b8ee57d5bbbba9adcb2aa9ab91a6701373f0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.2.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="593fbaec1c3e100480a2bd72457b64b7dde6ac2d">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.2.0_94884292e76bd29acf5414a2e9f3e7d45fe6367f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.2.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="21bb89120d84fa29afeb0f9c0ebf415bc3b45a7e">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-messaging-9.2.0_80b2b38274e99bcd225b35a03831644407a3784b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_0c693ed89f99c7ce3fde03244ebc48a0647641cb/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_4037b8532c3f7c2ea2a05276c4e81e08e13ad532/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_69336e6e5e057369bb9b7c458e1b6c09d08a4144/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.1.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="7f2420506110902f033406b25697cf97ee8c38b2">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-cardview-v7-25.1.0_d883514be29673c6d9f989b56d5d15a13e94d258/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-cardview-v7-25.1.0_3715559a9e314f01c35012b7d7c92cd4cb694423/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -215,97 +242,70 @@
         optimize="true"
         revision="25.0.2"
         sha1="15f8abc7f1414bbffca8d32b73097223d3a83847">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/library-1.0.0_dc48d48e04668668e40afd2ebcb3fb33074230c1/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/library-1.0.0_dc48d48e04668668e40afd2ebcb3fb33074230c1/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.0_6801a47fc989e184303fa107ec5d744b5b18e43f/classes.dex" />
+        sha1="fe17b6159bfa76f37bcf161601d53e469a2276fa">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f4d7c5ff8efc61ad772c560aac39da44ab8de9d1/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.2.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="21bb89120d84fa29afeb0f9c0ebf415bc3b45a7e">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-messaging-9.2.0_a2f46691e8fd76c067184e2549e906e0a6aae619/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_85ae41ecb011dc8ff3af225ba146c6818b8fd34d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.2.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="363f626ad5686283250cdb6073ae1bba5cb07a87">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-9.2.0_43cd415ff3dc72b5cb8b49c45f50315291df9f37/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_e8cb04b70288fe53e787e096e81fe1c95ad3e765/classes.dex" />
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_fd74734b4c77521ae364024f7d9b21c2136e129e/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.2.0/jars/classes.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="30489a97b06cc3945bdbcc1770089af9e3b3b64d">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.2.0_83f1fbb44ce22152edd54467fb61d14f952c191c/classes.dex" />
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_5961051701e6ed36b901b6ef7a2c35815944f843/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/home/solomon/Documents/skedtext/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.2.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="9d4abf5c63033c1b3c44d0cad0e42cad64a3922b">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_9e323bc30ed8dfd16c88a1abeea58ab67549af9c/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_1eff3db9e35a0e8f1898cf223573e0587184e009/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_2665e362efc725e9084d955e1e2466d181924149/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.0_88682f7fbf78b77d1af5161042d1bc83dde4188e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.2.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="dc4c18602ecffb3e69cda6cdc51ba4feac0f97d7">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-iid-9.2.0_79f6fad3ef82567b0fb0f9174e1cdeafa1be7d8a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.2.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="fb15fd9774b5c51dcb39d8e6fa1b6f06bcd1cd34">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-impl-9.2.0_bcc6e5e86f14e3fb8458751e907bde92d1bf4799/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/solomon/Downloads/SkedText/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.2.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="299e04800d1169b9f3dd04c376c7b266a3594cca">
-        <dex dex="/home/solomon/Downloads/SkedText/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-9.2.0_bc2db6bb00915a90eb6e8726105e7daa8a4ee568/classes.dex" />
+        sha1="a03f4d605b0f29222c2ddf8b7896258cb4b92def">
+        <dex dex="/home/solomon/Documents/skedtext/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-9.2.0_8f9cc8461f1c79bf415c38f7bd54710263e00abb/classes.dex" />
     </item>
 
 </items>

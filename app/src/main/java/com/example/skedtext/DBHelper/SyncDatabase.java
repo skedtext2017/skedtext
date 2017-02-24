@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.skedtext.Data.ContactGroups;
 import com.example.skedtext.Data.ContactUsers;
 import com.example.skedtext.Data.Messages;
+import com.example.skedtext.Data.Users;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -100,9 +101,15 @@ public class SyncDatabase {
     }
 
     public boolean onUpdate() {
-        getJsonCGroups();
-        getJsonCUsers();
-        Log.d("JSONMESSAGE", messageJSON());
+        if(myDB.emptyContactGroups()){
+            getJsonCGroups();
+            if(myDB.emptyContactUsers()){
+                getJsonCUsers();
+                if(myDB.emptyUsers()){
+                    getJsonUsers();
+                }
+            }
+        }
         sendMessageJson(messageJSON());
         getJsonMessages();
         return true;
@@ -153,12 +160,7 @@ public class SyncDatabase {
                 data.put(MESSAGES_STATUS, Integer.parseInt(messages.getStatus()));
                 long result = -1;
                 try{
-                    Cursor cursor = db.rawQuery("select id from " + TABLE_MESSAGES + " WHERE " +
-                            MESSAGES_ID + "=" + messages.getId() + ";", null);
-                    if(cursor.moveToFirst()){
-                    }else{
-                        result = db.insertWithOnConflict(TABLE_MESSAGES, null, data, SQLiteDatabase.CONFLICT_IGNORE);
-                    }
+                    result = db.insertWithOnConflict(TABLE_MESSAGES, null, data, SQLiteDatabase.CONFLICT_IGNORE);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -218,15 +220,11 @@ public class SyncDatabase {
                 data.put(CUSERS_CONTACT_GROUPS_FK, Integer.parseInt(cusers.getContact_groups_fk()));
                 long result = -1;
                 try{
-                    Cursor cursor = db.rawQuery("select id from " + TABLE_CONTACT_USERS + " WHERE " +
-                            CUSERS_PHONE_NUMBER + "='" + cusers.getPhone_number() + "';", null);
-                    if(cursor.moveToFirst()){
-                    }else{
-                        result = db.insertWithOnConflict(TABLE_CONTACT_USERS, null, data, SQLiteDatabase.CONFLICT_IGNORE);
-                    }
+                    result = db.insertWithOnConflict(TABLE_CONTACT_USERS, null, data, SQLiteDatabase.CONFLICT_IGNORE);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+
                 if(result == -1){
                     Log.d("TAG", "ERROR cusers");
                 }else{
@@ -275,12 +273,65 @@ public class SyncDatabase {
                 data.put(CGROUPS_NAME, cgroups.getName());
                 long result = -1;
                 try{
-                    Cursor cursor = db.rawQuery("select id from " + TABLE_CONTACT_GROUPS + " WHERE " +
-                            CGROUPS_NAME + "='" + cgroups.getName() + "';", null);
-                    if(cursor.moveToFirst()){
-                    }else{
-                        result = db.insertWithOnConflict(TABLE_CONTACT_GROUPS, null, data, SQLiteDatabase.CONFLICT_IGNORE);
+                    result = db.insertWithOnConflict(TABLE_CONTACT_GROUPS, null, data, SQLiteDatabase.CONFLICT_IGNORE);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                if(result == -1){
+                    Log.d("TAG", "ERROR cgroups");
+                }else{
+                    Log.d("TAG", "Success cgroups");
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getJsonUsers(){
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(json_url+getUsers,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Dismissing progress dialog
+                        //calling method to parse json array
+                        parseUsers(response);
                     }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("TAG", error.toString());
+                    }
+                });
+
+        //Creating request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        //Adding request to the queue
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    private void parseUsers(JSONArray array){
+        for (int i = 0; i < array.length(); i++) {
+            Users users = new Users();
+            JSONObject json = null;
+            try {
+                json = array.getJSONObject(i);
+                users.setId(json.getString("id"));
+                users.setFirst_name(json.getString("first_name"));
+                users.setLast_name(json.getString("last_name"));
+                users.setUsername(json.getString("username"));
+                users.setPassword(json.getString("password"));
+                ContentValues data = new ContentValues();
+                data.put(USERS_ID, Integer.parseInt(users.getId()));
+                data.put(USERS_FIRST_NAME, users.getFirst_name());
+                data.put(USERS_LAST_NAME, users.getLast_name());
+                data.put(USERS_USERNAME, users.getUsername());
+                data.put(USERS_PASSWORD, users.getPassword());
+                long result = -1;
+                try{
+                    result = db.insertWithOnConflict(TABLE_USERS, null, data, SQLiteDatabase.CONFLICT_IGNORE);
                 }catch (Exception e){
                     e.printStackTrace();
                 }

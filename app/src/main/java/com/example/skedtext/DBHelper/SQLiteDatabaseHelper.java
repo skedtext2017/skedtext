@@ -19,6 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by solomon on 2/12/17.
  */
@@ -79,7 +82,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 ");";
         String INSERT_USERS_ADMIN = "INSERT INTO " + TABLE_USERS + "( " +
                 USERS_USERNAME + "," + USERS_PASSWORD + "," + USERS_FIRST_NAME + "," +
-                USERS_LAST_NAME + ") VALUES('admin', 'admin', 'Sked', 'Text'" +
+                USERS_LAST_NAME + ") VALUES('admin', '21232f297a57a5a743894a0e4a801fc3', 'Sked', 'Text'" +
                 ");";
 
         String CREATE_MESSAGES = "CREATE TABLE " + TABLE_MESSAGES + "( " +
@@ -135,7 +138,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getMessages(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String queryMessages = "SELECT * FROM " + TABLE_MESSAGES;
+        String queryMessages = "SELECT * FROM " + TABLE_MESSAGES + " WHERE status=1";
         Cursor result = db.rawQuery(queryMessages, null);
         return result;
     }
@@ -151,6 +154,29 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String queryContactGroups = "SELECT * FROM " + TABLE_CONTACT_GROUPS;
         Cursor result = db.rawQuery(queryContactGroups, null);
+        return result;
+    }
+
+    public Cursor getContactGroup(String keyword){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryGroup = "SELECT * FROM " + TABLE_CONTACT_GROUPS + " WHERE id='"+keyword+
+                "' OR name='"+keyword+"';";
+        Cursor result = db.rawQuery(queryGroup, null);
+        return result;
+    }
+
+    public Cursor getContactPhone(String keyword){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryPhone = "SELECT " + CUSERS_PHONE_NUMBER + " FROM " + TABLE_CONTACT_USERS +
+                " WHERE " + CUSERS_CONTACT_GROUPS_FK + "='"+keyword+"';";
+        Cursor result = db.rawQuery(queryPhone, null);
+        return result;
+    }
+
+    public Cursor getUsers(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryUsers = "SELECT * FROM " + TABLE_USERS;
+        Cursor  result = db.rawQuery(queryUsers, null);
         return result;
     }
 
@@ -178,9 +204,22 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean emptyUsers(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_USERS, null, null);
+        if(result == -1){
+            Log.d("TAG", "Error on Delete");
+            return false;
+        }else{
+            Log.d("TAG", "Success Delete");
+            return true;
+        }
+    }
+
     public boolean saveMessage(String contact, String message, String event, String alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues data = new ContentValues();
+
         data.put(MESSAGES_MESSAGE, message);
         data.put(MESSAGES_CONTACT, contact);
         data.put(MESSAGES_EVENT, event);
@@ -194,6 +233,42 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             Log.d("TAG", "Success");
             return true;
         }
+    }
+
+    public void messageSentStatus(String keyword){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryUpdateMessage = "UPDATE " + TABLE_MESSAGES +
+                " SET status=0 WHERE id="+keyword+";";
+        db.rawQuery(queryUpdateMessage, null);
+    }
+
+    /**
+     * function md5 encryption for passwords
+     *
+     * @param password
+     * @return passwordEncrypted
+     */
+    public static final String md5(final String password) {
+        try {
+
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance("MD5");
+            digest.update(password.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++) {
+                String h = Integer.toHexString(0xFF & messageDigest[i]);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
