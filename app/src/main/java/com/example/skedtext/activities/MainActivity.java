@@ -37,13 +37,22 @@ import com.example.skedtext.SessionManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int ADDED_SMS = 1;
+    public static final int SELECTED_SMS = 2;
+
+    public static final int RESULT_SMS_CANCELLED = 2;
+    public static final int RESULT_SMS_EDIT = 3;
+
     String Token;
     boolean thread_running = true;
     RecyclerView rv;
@@ -122,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Click action
                 Intent intent = new Intent(MainActivity.this, SchedMessageActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADDED_SMS);
             }
         });
 
@@ -153,9 +162,10 @@ public class MainActivity extends AppCompatActivity {
                         messages.setMessage(message);
                         String event = res.getString(res.getColumnIndex("event_timestamp"));
                         messages.setEventDateTime(event);
-                        Log.d("TAG", event);
                         String alarm = res.getString(res.getColumnIndex("alarm_timestamp"));
                         messages.setAlarmDateTime(alarm);
+                        String created = res.getString(res.getColumnIndex("created_timestamp"));
+                        messages.setCreatedDateTime(created);
                         String status = res.getString(res.getColumnIndex("status"));
                         messages.setStatus(status);
                         messagesList.add(messages);
@@ -175,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
                     toMessage.putExtra("message", item.getMessage());
                     toMessage.putExtra("eventDateTime", item.getEventDateTime());
                     toMessage.putExtra("alarmDateTime", item.getAlarmDateTime());
-                    startActivity(toMessage);
+                    toMessage.putExtra("createdDateTime", item.getCreatedDateTime());
+                    startActivityForResult(toMessage, SELECTED_SMS);
                 }
             }));
             swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -251,8 +262,14 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onFinish() {
                                         progressDialog.dismiss();
-                                        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Sync Success!", Snackbar.LENGTH_LONG);
-                                        snackbar.show();
+                                        Cursor cCheckDB = myDB.getContactGroups();
+                                        if(cCheckDB.moveToFirst()){
+                                            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Sync Successfully!", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                        }else{
+                                            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Sync Failed! Check your connection.", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                        }
                                     }
                                 }.start();
                             }else{
@@ -311,4 +328,46 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        onPopulateData();
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ADDED_SMS){
+            switch (resultCode){
+                case RESULT_OK:
+                    Snackbar snackAdded = Snackbar.make(coordinatorLayout, "Added SMS Successfully!", Snackbar.LENGTH_LONG);
+                    snackAdded.show();
+                    break;
+
+                case RESULT_CANCELED:
+                    Snackbar snackFailed = Snackbar.make(coordinatorLayout, "Failed while adding SMS!!", Snackbar.LENGTH_LONG);
+                    snackFailed.show();
+                    break;
+            }
+        }else if(requestCode == SELECTED_SMS){
+            switch (resultCode){
+                case RESULT_SMS_CANCELLED:
+                    Snackbar snackCancelled = Snackbar.make(coordinatorLayout, "Cancelled Scheduled SMS Successfully!", Snackbar.LENGTH_LONG);
+                    snackCancelled.show();
+                    break;
+
+                case RESULT_SMS_EDIT:
+                    Snackbar snackEdited = Snackbar.make(coordinatorLayout, "Updated Scheduled SMS Successfully!", Snackbar.LENGTH_LONG);
+                    snackEdited.show();
+                    break;
+
+                case RESULT_CANCELED:
+                    Snackbar snackFailed = Snackbar.make(coordinatorLayout, "Failed while updating scheduled SMS!!", Snackbar.LENGTH_LONG);
+                    snackFailed.show();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
 }

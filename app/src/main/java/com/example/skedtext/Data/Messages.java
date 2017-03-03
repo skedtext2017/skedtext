@@ -11,6 +11,7 @@ public class Messages {
     public String message;
     public String eventDateTime;
     public String alarmDateTime;
+    public String createdDateTime;
     public String status;
 
     public void setId(String id){
@@ -51,6 +52,14 @@ public class Messages {
 
     public String getAlarmDateTime(){
         return alarmDateTime;
+    }
+
+    public void setCreatedDateTime(String createdDateTime){
+        this.createdDateTime = createdDateTime;
+    }
+
+    public String getCreatedDateTime(){
+        return createdDateTime;
     }
 
     public void setStatus(String status){

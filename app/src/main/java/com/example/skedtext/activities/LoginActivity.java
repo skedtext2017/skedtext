@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.skedtext.DBHelper.SQLiteDatabaseHelper;
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText edtPass;
     private Button btnLogin;
     private Activity activity;
+    private RelativeLayout activity_login;
 
     private SQLiteDatabaseHelper myDB;
     private SessionManager sessionManager;
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtUsername = (EditText) findViewById(R.id.edtUsername);
         edtPass = (EditText) findViewById(R.id.edtPassword);
+        activity_login = (RelativeLayout) findViewById(R.id.activity_login);
         activity = this;
 
         myDB = new SQLiteDatabaseHelper(this);
@@ -66,9 +70,9 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(toMain);
                         finish();
                     }else{
-                        Toast.makeText(activity, "No user is found", Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(activity_login, "No user is found!", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
-
                 }
 
             }

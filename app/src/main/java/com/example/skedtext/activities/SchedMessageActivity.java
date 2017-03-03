@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
@@ -12,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -44,7 +47,7 @@ public class SchedMessageActivity extends AppCompatActivity{
     ScrollView activity_sched_message;
     Spinner dropdownListGroups;
     EditText edtMessage, edtEventSelectTime, edtEventSelectDate;
-    String contact, message, EventDateTime, EventTime;
+    String contact, message, EventDateTime, EventTime, AlarmTime;
 
     private ArrayList<String> permissionsGranted = new ArrayList<>();
     final private static int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
@@ -58,7 +61,7 @@ public class SchedMessageActivity extends AppCompatActivity{
     SQLiteDatabaseHelper myDB;
     SimpleDateFormat formatter;
     Date sDate;
-
+    Intent intentResultAddSMS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +76,11 @@ public class SchedMessageActivity extends AppCompatActivity{
         contact = "";
         message = "";
         EventDateTime = "";
+        EventTime = "";
+        AlarmTime = "";
 
         sDate = null;
+        intentResultAddSMS = new Intent();
         formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         Calendar mcurrentDate=Calendar.getInstance();
@@ -102,7 +108,13 @@ public class SchedMessageActivity extends AppCompatActivity{
         Cursor cGroups = myDB.getContactGroups();
         if(cGroups.moveToFirst()){
             do{
-                groups.add(cGroups.getString(cGroups.getColumnIndex("name")));
+                String gcID = cGroups.getString(cGroups.getColumnIndex("id"));
+                Cursor cNumbers = myDB.getContactPhone(gcID);
+                if(cNumbers.moveToFirst()){
+                    if(cNumbers.moveToFirst()){
+                        groups.add(cGroups.getString(cGroups.getColumnIndex("name")));
+                    }
+                }
             }while(cGroups.moveToNext());
         }
 
@@ -118,7 +130,7 @@ public class SchedMessageActivity extends AppCompatActivity{
             public void onClick(View v) {
                 DatePickerDialog mDatePicker=new DatePickerDialog(SchedMessageActivity.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        EventDateTime = String.valueOf(selectedyear) + "-" + String.valueOf(selectedmonth) + "-" + String.valueOf(selectedday);
+                        EventDateTime = selectedyear + "-" + selectedmonth + "-" + selectedday;
                         try{
                             sDate = formatter.parse(EventDateTime);
                         }catch (ParseException e){
@@ -131,6 +143,7 @@ public class SchedMessageActivity extends AppCompatActivity{
                             edtEventSelectDate.setHint("Select Date");
                             EventDateTime = "";
                         }else{
+                            selectedmonth++;
                             edtEventSelectDate.setText(selectedyear + "-" + selectedmonth + "-" + selectedday);
                             EventDateTime = selectedyear + "-" + selectedmonth + "-" + selectedday;
                         }
@@ -153,15 +166,13 @@ public class SchedMessageActivity extends AppCompatActivity{
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         edtEventSelectTime.setText(String.format("%02d:%02d", selectedHour, selectedMinute));
                         EventTime = String.format("%02d:%02d", selectedHour, selectedMinute) + ":" + "00";
-                        EventDateTime += " " + EventTime;
+                        AlarmTime = String.format("%02d:%02d", selectedHour, (selectedMinute-10) ) + ":" + "00";
                     }
                 }, hour, minute, true);
                 mTimePicker.show();
             }
         });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,8 +185,9 @@ public class SchedMessageActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.confirm:
+                Log.d("SkedTest", "Event Time: " + EventTime);
                 message = edtMessage.getText().toString();
-                if(message.trim().equals("") || EventDateTime.trim().equals("")){
+                if(message.trim().equals("") || EventDateTime.trim().equals("") || EventTime.trim().equals("")){
                     final android.app.AlertDialog.Builder loginAlert = new android.app.AlertDialog.Builder(activity);
                     loginAlert.setTitle("Incomplete Information");
                     loginAlert.setMessage("Please input the required information. For more information" +
@@ -187,11 +199,18 @@ public class SchedMessageActivity extends AppCompatActivity{
                     });
                     loginAlert.show();
                 }else{
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("Are you sure?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    EventDateTime += " " + EventTime;
+                                    SimpleDateFormat newFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    try {
+                                        sDate = newFormatter.parse(EventDateTime);
+                                    } catch (ParseException e) {
+                                        sDate = null;
+                                        e.printStackTrace();
+                                    }
                                     String selectedGroup = dropdownListGroups.getSelectedItem().toString();
 
                                     Cursor cGroup = myDB.getContactGroup(selectedGroup);
@@ -199,35 +218,45 @@ public class SchedMessageActivity extends AppCompatActivity{
                                     if(cGroup.moveToFirst()){
                                         gID = cGroup.getString(cGroup.getColumnIndex("id"));
                                         if(sDate != null){
-                                            Calendar alarm = Calendar.getInstance();
-                                            alarm.setTime(sDate);
-                                            alarm.add(Calendar.DATE, -3);
-                                            Date EventAlarm = alarm.getTime();
-                                            String strEventAlarm = formatter.format(EventAlarm);
-                                            strEventAlarm += " " + EventTime;
+                                            String strEventAlarm = formatter.format(sDate);
+                                            strEventAlarm += " " + AlarmTime;
                                             Log.d("SkedText", "Event: " + EventDateTime );
                                             Log.d("SkedText", "Event Alarm: " + strEventAlarm);
-                                            if(myDB.saveMessage(gID, message, EventDateTime, strEventAlarm)){
+                                            Date curDate = new Date();
+                                            SimpleDateFormat testFormatter = new SimpleDateFormat("yyyyMMddHHmmSS");
+                                            String uniqueID = testFormatter.format(curDate);
+                                            Log.d("SkedTest", String.valueOf(uniqueID));
+                                            if(myDB.saveMessage(gID, message, EventDateTime, strEventAlarm, uniqueID)){
                                                 ArrayList<String> phoneNumbers = new ArrayList<String>();
 
                                                 Cursor cLastID = myDB.getMessages();
                                                 String msgID = "";
-                                                if(cLastID.moveToLast()){
+                                                if(cLastID.moveToFirst()){
                                                     msgID = cLastID.getString(cLastID.getColumnIndex("id"));
+                                                    Log.d("Skedtest", "ID before sa save: " + String.valueOf(msgID));
+                                                    uniqueID += msgID;
                                                     Cursor cNumbers = myDB.getContactPhone(gID);
                                                     if(cNumbers.moveToFirst()){
                                                         do{
                                                             String num = "09" + cNumbers.getString(cNumbers.getColumnIndex("phone_number"));
                                                             phoneNumbers.add(num);
                                                         }while(cNumbers.moveToNext());
-
-                                                        for(int i = 0; i<phoneNumbers.size(); i++){
-                                                            SMSManager smsManager = new SMSManager(getApplicationContext());
-                                                            smsManager.sendSMS(msgID, phoneNumbers.get(i), message);
+                                                        if(isSimExists()){
+                                                            long finalUniqueID = Long.parseLong(uniqueID);
+                                                            for(int i = 0; i<phoneNumbers.size(); i++){
+                                                                finalUniqueID++;
+                                                                SMSManager smsManager = new SMSManager(getApplicationContext());
+                                                                smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message, EventDateTime);
+                                                                finalUniqueID++;
+                                                                smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message,strEventAlarm);
+                                                            }
+                                                        }else{
+                                                            setResult(RESULT_CANCELED, intentResultAddSMS);
+                                                            finish();
                                                         }
-
                                                     }
                                                 }
+                                                setResult(RESULT_OK, intentResultAddSMS);
                                                 finish();
                                             }
                                         }
@@ -286,6 +315,47 @@ public class SchedMessageActivity extends AppCompatActivity{
             }
         }
         return granted;
+    }
+
+    /**
+     * @return true if SIM card exists
+     * false if SIM card is locked or doesn't exists <br/><br/>
+     * <b>Note:</b> This method requires permissions <b> "android.permission.READ_PHONE_STATE" </b>
+     */
+    public boolean isSimExists()
+    {
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        int SIM_STATE = telephonyManager.getSimState();
+
+        if(SIM_STATE == TelephonyManager.SIM_STATE_READY)
+            return true;
+        else
+        {
+            switch(SIM_STATE)
+            {
+                case TelephonyManager.SIM_STATE_ABSENT: //SimState = "No Sim Found!";
+                    Snackbar noSimSnack = Snackbar.make(activity_sched_message, "No Sim Found!", Snackbar.LENGTH_LONG);
+                    noSimSnack.show();
+                    break;
+                case TelephonyManager.SIM_STATE_NETWORK_LOCKED: //SimState = "Network Locked!";
+                    Snackbar noNetworkSnack = Snackbar.make(activity_sched_message, "Network Locked!", Snackbar.LENGTH_LONG);
+                    noNetworkSnack.show();
+                    break;
+                case TelephonyManager.SIM_STATE_PIN_REQUIRED: //SimState = "PIN Required to access SIM!";
+                    Snackbar pinReqSnack = Snackbar.make(activity_sched_message, "PIN Required to access SIM!", Snackbar.LENGTH_LONG);
+                    pinReqSnack.show();
+                    break;
+                case TelephonyManager.SIM_STATE_PUK_REQUIRED: //SimState = "PUK Required to access SIM!"; // Personal Unblocking Code
+                    Snackbar pukReqSnack = Snackbar.make(activity_sched_message, "PUK Required to access SIM!", Snackbar.LENGTH_LONG);
+                    pukReqSnack.show();
+                    break;
+                case TelephonyManager.SIM_STATE_UNKNOWN: //SimState = "Unknown SIM State!";
+                    Snackbar unknownSimSnack = Snackbar.make(activity_sched_message, "Unknown SIM State!", Snackbar.LENGTH_LONG);
+                    unknownSimSnack.show();
+                    break;
+            }
+            return false;
+        }
     }
 
 }

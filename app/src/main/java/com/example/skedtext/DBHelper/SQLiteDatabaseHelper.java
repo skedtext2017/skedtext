@@ -50,6 +50,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public static final String MESSAGES_CONTACT = "contact_fk";
     public static final String MESSAGES_EVENT = "event_timestamp";
     public static final String MESSAGES_ALARM = "alarm_timestamp";
+    public static final String MESSAGES_CREATED = "created_timestamp";
     public static final String MESSAGES_STATUS = "status";
 
     public static final String TABLE_CONTACT_GROUPS = "contact_groups";
@@ -64,8 +65,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public static final String CUSERS_PHONE_NUMBER = "phone_number";
     public static final String CUSERS_CONTACT_GROUPS_FK = "contact_groups_fk";
 
+    public static final int MESSAGE_SENT = 0;
+    public static final int MESSAGE_ACTIVE = 1;
+    public static final int MESSAGE_CANCELLED = 2;
+
     public SQLiteDatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
         this.context = context;
         SQLiteDatabase db = this.getWritableDatabase();
     }
@@ -91,6 +96,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 MESSAGES_MESSAGE + " TEXT, " +
                 MESSAGES_EVENT + " DATETIME, " +
                 MESSAGES_ALARM + " DATETIME, " +
+                MESSAGES_CREATED + " BIGINTEGER UNIQUE, " +
                 MESSAGES_STATUS + " INTEGER" +
                 ");";
 
@@ -120,6 +126,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACT_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACT_GROUPS);
         onCreate(db);
     }
 
@@ -138,7 +146,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getMessages(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String queryMessages = "SELECT * FROM " + TABLE_MESSAGES + " WHERE status=1";
+        String queryMessages = "SELECT * FROM " + TABLE_MESSAGES + " WHERE status=1 ORDER BY " +
+                MESSAGES_ID +" DESC";
         Cursor result = db.rawQuery(queryMessages, null);
         return result;
     }
@@ -216,7 +225,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean saveMessage(String contact, String message, String event, String alarm) {
+    public boolean saveMessage(String contact, String message, String event, String alarm, String uniqueID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues data = new ContentValues();
 
@@ -224,6 +233,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         data.put(MESSAGES_CONTACT, contact);
         data.put(MESSAGES_EVENT, event);
         data.put(MESSAGES_ALARM, alarm);
+        data.put(MESSAGES_CREATED, uniqueID);
         data.put(MESSAGES_STATUS, "1");
         long result = db.insert(TABLE_MESSAGES, null, data);
         if(result == -1){
@@ -235,11 +245,56 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void messageSentStatus(String keyword){
+    public void messageChangeStatus(int keyword, String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String queryUpdateMessage = "UPDATE " + TABLE_MESSAGES +
-                " SET status=0 WHERE id="+keyword+";";
-        db.rawQuery(queryUpdateMessage, null);
+        ContentValues cStatus = new ContentValues();
+        cStatus.put(MESSAGES_STATUS, keyword);
+        switch (keyword){
+
+            case MESSAGE_ACTIVE:
+                long aResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
+                if(aResult == -1){
+                    Log.d("SkedText", "Error on Updating message status");
+                }else{
+                    Log.d("SkedText", "Success on updating message status");
+                }
+                break;
+
+            case MESSAGE_SENT:
+                long sResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
+                if(sResult == -1){
+                    Log.d("SkedText", "Error on Updating message status");
+                }else{
+                    Log.d("SkedText", "Success on updating message status");
+                }
+                break;
+
+            case MESSAGE_CANCELLED:
+                long cResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
+                if(cResult == -1){
+                    Log.d("SkedText", "Error on Updating message status");
+                }else{
+                    Log.d("SkedText", "Success on updating message status");
+                }
+                break;
+        }
+
+    }
+
+    public boolean messageUpdateInfo(String id, String contact, String message, String event, String alarm, String uniqueID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MESSAGES_MESSAGE, message);
+        contentValues.put(MESSAGES_CONTACT, contact);
+        contentValues.put(MESSAGES_EVENT, event);
+        contentValues.put(MESSAGES_ALARM, alarm);
+        contentValues.put(MESSAGES_CREATED, uniqueID);
+        long result = db.update(TABLE_MESSAGES, contentValues, MESSAGES_ID + "=" + id, null);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     /**

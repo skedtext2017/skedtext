@@ -51,6 +51,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.skedtext.activities.MainActivity" />
         </activity>
+
+        <receiver android:name=".Sms.SmsDelivered" />
+        <receiver android:name=".Sms.SmsSent" />
+        <receiver android:name=".Sms.SmsReceiver" />
     </application>
 
 </manifest>

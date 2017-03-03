@@ -1,93 +1,70 @@
 package com.example.skedtext.Sms;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.skedtext.DBHelper.SQLiteDatabaseHelper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by solomon on 2/24/17.
  */
 
 public class SMSManager {
-
     private Context context;
     private SQLiteDatabaseHelper myDB;
+    private SimpleDateFormat formatter;
+    private PendingIntent pendingIntent;
+    private Intent smsIntent;
 
     public SMSManager(Context context){
         this.context = context;
+        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         myDB = new SQLiteDatabaseHelper(context);
+        smsIntent = new Intent(context, SmsReceiver.class);
     }
 
-    public void sendSMS(final String id, String phoneNumber, String message)
-    {
-        String SENT = "SMS_SENT";
-        String DELIVERED = "SMS_DELIVERED";
+    public void setSmsSchedule(long uniqueId, String msgID, String phoneNumber, String message, String eventDateTime) {
 
-        PendingIntent sentPI = PendingIntent.getBroadcast(context, 0,
-                new Intent(SENT), 0);
-
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
-                new Intent(DELIVERED), 0);
-
-        //---when the SMS has been sent---
-        context.registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(context.getApplicationContext(), "SMS sent",
-                                Toast.LENGTH_SHORT).show();
-                        myDB.messageSentStatus(id);
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(context.getApplicationContext(), "You don't have enough load.",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(context.getApplicationContext(), "No service",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(context.getApplicationContext(), "Null PDU",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(context.getApplicationContext(), "Radio off",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
+        Date dSched = new Date();
+        Calendar sms_alarm = Calendar.getInstance();
+        try {
+            smsIntent.putExtra(SmsReceiver.SMS_ID, msgID);
+            smsIntent.putExtra(SmsReceiver.SMS_NUMBER, phoneNumber);
+            smsIntent.putExtra(SmsReceiver.SMS_MESSAGE, message);
+            pendingIntent = PendingIntent.getBroadcast(context, (int) uniqueId, smsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            dSched = formatter.parse(eventDateTime);
+            sms_alarm.setTime(dSched);
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, sms_alarm.getTimeInMillis(), pendingIntent);
+            }else{
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, sms_alarm.getTimeInMillis(), 0, pendingIntent);
             }
-        }, new IntentFilter(SENT));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
-        //---when the SMS has been delivered---
-        context.registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(context.getApplicationContext(), "SMS delivered",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Toast.makeText(context.getApplicationContext(), "SMS not delivered",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(DELIVERED));
-
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+    public void cancelSmsSchedule(long uniqueIDs){
+        pendingIntent = PendingIntent.getBroadcast(context, (int) uniqueIDs, smsIntent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
 
 }
