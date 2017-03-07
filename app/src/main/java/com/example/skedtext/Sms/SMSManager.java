@@ -62,7 +62,7 @@ public class SMSManager {
     }
 
     public void cancelSmsSchedule(long uniqueIDs){
-        pendingIntent = PendingIntent.getBroadcast(context, (int) uniqueIDs, smsIntent, PendingIntent.FLAG_ONE_SHOT);
+        pendingIntent = PendingIntent.getBroadcast(context, (int) uniqueIDs, smsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }

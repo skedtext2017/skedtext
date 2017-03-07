@@ -245,9 +245,11 @@ public class SchedMessageActivity extends AppCompatActivity{
                                                             long finalUniqueID = Long.parseLong(uniqueID);
                                                             for(int i = 0; i<phoneNumbers.size(); i++){
                                                                 finalUniqueID++;
+                                                                Log.d("SkedHello", "SkedID: " + String.valueOf(finalUniqueID));
                                                                 SMSManager smsManager = new SMSManager(getApplicationContext());
                                                                 smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message, EventDateTime);
                                                                 finalUniqueID++;
+                                                                Log.d("SkedHello", "SkedID: " + String.valueOf(finalUniqueID));
                                                                 smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message,strEventAlarm);
                                                             }
                                                         }else{

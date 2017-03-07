@@ -26,7 +26,7 @@ public class SmsReceiver extends BroadcastReceiver{
 
         Intent intentSent = new Intent(context, SmsSent.class);
         intentSent.putExtra(SMS_ID, id);
-        Intent intentDelivered = new Intent(context, SmsSent.class);
+        Intent intentDelivered = new Intent(context, SmsDelivered.class);
         intentDelivered.putExtra(SMS_ID, id);
 
         PendingIntent sentPI = PendingIntent.getBroadcast(context, 0, intentSent, PendingIntent.FLAG_CANCEL_CURRENT);

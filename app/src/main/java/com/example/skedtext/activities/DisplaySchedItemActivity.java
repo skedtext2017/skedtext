@@ -265,21 +265,12 @@ public class DisplaySchedItemActivity extends AppCompatActivity {
                                                     for(int i = 0; i<phoneNumbers.size(); i++){
                                                         finalUniqueID++;
                                                         Log.d("SkedText", "Incremented ID: " + finalUniqueID);
-//                                                        smsManager.cancelSmsSchedule(finalUniqueID);
                                                         smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message, EventDateTime);
                                                         finalUniqueID++;
                                                         Log.d("SkedText", "Incremented ID: " + finalUniqueID);
-//                                                        smsManager.cancelSmsSchedule(finalUniqueID);
                                                         smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message,strEventAlarm);
                                                     }
                                                 }
-//                                                long fUniqueID = Long.parseLong(createdDateTime);
-//                                                for(int i = 0; i<phoneNumbers.size(); i++){
-//                                                    fUniqueID++;
-//                                                    smsManager.setSmsSchedule(finalUniqueID, msgID, phoneNumbers.get(i), message, EventDateTime);
-//                                                    fUniqueID++;
-//                                                    smsManager.setSmsSchedule(fUniqueID, msgID, phoneNumbers.get(i), message, strEventAlarm);
-//                                                }
                                                 setResult(MainActivity.RESULT_SMS_EDIT, new Intent(getApplicationContext(), MainActivity.class));
                                                 finish();
                                             }else{
@@ -288,28 +279,6 @@ public class DisplaySchedItemActivity extends AppCompatActivity {
                                             }
                                         }
 
-                                            /*
-                                              * Testing Purposes for creating multiple scheduled sms
-                                              * */
-                                        //END for testing
-//                                            if(myDB.editMessage(gID, message, EventDateTime, strEventAlarm)){
-//                                                ArrayList<String> phoneNumbers = new ArrayList<String>();
-//
-//                                                Cursor cLastID = myDB.getMessages();
-//                                                String msgID = "";
-//                                                if(cLastID.moveToLast()){
-//                                                    msgID = cLastID.getString(cLastID.getColumnIndex("id"));
-//                                                    Cursor cNumbers = myDB.getContactPhone(gID);
-//                                                    if(cNumbers.moveToFirst()){
-//                                                        do{
-//                                                            String num = "09" + cNumbers.getString(cNumbers.getColumnIndex("phone_number"));
-//                                                            phoneNumbers.add(num);
-//                                                        }while(cNumbers.moveToNext());
-//
-//                                                    }
-//                                                }
-//                                                finish();
-//                                            }
                                     }
 
                                 }
@@ -352,15 +321,16 @@ public class DisplaySchedItemActivity extends AppCompatActivity {
                                         long finalUniqueID = Long.parseLong(createdDateTime);
                                         for(int i = 0; i<phoneNumbers.size(); i++){
                                             finalUniqueID++;
-                                            Log.d("SkedTest", "Current Unique ID: " + String.valueOf(finalUniqueID));
+                                            Log.d("SkedHello", "Current Unique ID: " + String.valueOf(finalUniqueID));
                                             smsManager.cancelSmsSchedule(finalUniqueID);
                                             finalUniqueID++;
+                                            Log.d("SkedHello", "Current Unique ID: " + String.valueOf(finalUniqueID));
                                             smsManager.cancelSmsSchedule(finalUniqueID);
-                                            myDB.messageChangeStatus(myDB.MESSAGE_CANCELLED, msgID);
-                                            Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
-                                            setResult(MainActivity.RESULT_SMS_CANCELLED, toMain);
-                                            finish();
                                         }
+                                        myDB.messageChangeStatus(myDB.MESSAGE_CANCELLED, msgID);
+                                        Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
+                                        setResult(MainActivity.RESULT_SMS_CANCELLED, toMain);
+                                        finish();
                                     }
                                 }
 
@@ -371,7 +341,7 @@ public class DisplaySchedItemActivity extends AppCompatActivity {
                             }
                         });
                 AlertDialog d = builder.create();
-                d.setTitle("Save Alarm");
+                d.setTitle("Cancel Alarm");
                 d.show();
                 break;
 

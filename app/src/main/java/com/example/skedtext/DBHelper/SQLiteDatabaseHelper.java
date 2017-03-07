@@ -68,6 +68,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public static final int MESSAGE_SENT = 0;
     public static final int MESSAGE_ACTIVE = 1;
     public static final int MESSAGE_CANCELLED = 2;
+    public static final int MESSAGE_NO_LOAD = 3;
 
     public SQLiteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 2);
@@ -249,36 +250,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cStatus = new ContentValues();
         cStatus.put(MESSAGES_STATUS, keyword);
-        switch (keyword){
-
-            case MESSAGE_ACTIVE:
-                long aResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
-                if(aResult == -1){
-                    Log.d("SkedText", "Error on Updating message status");
-                }else{
-                    Log.d("SkedText", "Success on updating message status");
-                }
-                break;
-
-            case MESSAGE_SENT:
-                long sResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
-                if(sResult == -1){
-                    Log.d("SkedText", "Error on Updating message status");
-                }else{
-                    Log.d("SkedText", "Success on updating message status");
-                }
-                break;
-
-            case MESSAGE_CANCELLED:
-                long cResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
-                if(cResult == -1){
-                    Log.d("SkedText", "Error on Updating message status");
-                }else{
-                    Log.d("SkedText", "Success on updating message status");
-                }
-                break;
+        long aResult = db.update(TABLE_MESSAGES, cStatus, MESSAGES_ID + "=" +id, null);
+        if(aResult == -1){
+            Log.d("SkedText", "Error on Updating message status");
+        }else{
+            Log.d("SkedText", "Success on updating message status");
         }
-
     }
 
     public boolean messageUpdateInfo(String id, String contact, String message, String event, String alarm, String uniqueID){
